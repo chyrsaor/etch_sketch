@@ -1,41 +1,57 @@
 
 const container = document.querySelector(".container");
 
-function grider(gridNum, width, height){
+function grider(gridNum = 16){
+    container.innerHTML = '';
+
+    let cellSize = Math.floor(530/gridNum);
     
     for (let i = 0; i < gridNum; i++) {
         const row = document.createElement("div");
+        // console.log(i);
         for (let j = 0; j < gridNum; j++) {
+            // console.log(j);
             const column = document.createElement("div");
-            column.classList.add("column");
-
-            row.appendChild(column);
-            // console.log("hey");
-            // document.querySelector(".column").style.backgroundcolor = "red";
             
+            column.classList.add("column");
+            
+            row.appendChild(column);
+            column.style.width = cellSize + "px";
+            column.style.height = cellSize + "px";
         }
         container.appendChild(row);
     }
-
-    console.log(width, height);
-    // document.getElementsByClassName("column").style.width = width;
-    // document.getElementsByClassName("column").style.height = height;
 }
 
+grider();
+
+function generate_randomrgb(){
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+
+    return `rgb(${r}, ${g}, ${b})`;
+}
 
 const grid_btn = document.querySelector(".grid-size");
 grid_btn.addEventListener("click", () => {
  
-    let size = prompt("what canvas size do you want?: ");
-    size = Math.floor(parseInt(size));
-    if(size>100){
-        size=100
+    const newSize = prompt('Enter new grid size (e.g., 16 for 16x16):');
+    if (!isNaN(newSize) && newSize> 0 && newSize <= 100) {
+        grider(newSize);
+        const tiles = document.querySelectorAll(".column");
+        
+        tiles.forEach(tile => {tile.addEventListener("mouseover", (event) => {
+            event.target.style.backgroundColor = generate_randomrgb();
+        });})
+    } else {
+        alert('Please enter a valid number between 1 and 100.');
     }
-    let width = Math.floor(530/size);
-    let height = Math.floor(530/size);
-
-    // document.getElementsByClassName("column").style.width = width;
-    // document.getElementsByClassName("column").style.height = height;
-    grider(size, width, height);
 })
+
+const tiles = document.querySelectorAll(".column");
+
+tiles.forEach(tile => {tile.addEventListener("mouseover", (event) => {
+    event.target.style.backgroundColor = generate_randomrgb();
+});})
 

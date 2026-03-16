@@ -1,2 +1,2 @@
 # etch_sketch
-like a drawing pad, that can resize. like pixelated notepad
+using DOM manuplation to make a browser sketchpad. like pixelated notepad.
